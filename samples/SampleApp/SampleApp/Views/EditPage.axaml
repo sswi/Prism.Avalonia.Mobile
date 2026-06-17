@@ -1,0 +1,30 @@
+<ContentPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SampleApp.ViewModels"
+             xmlns:mvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Avalonia.Mobile"
+             x:Class="SampleApp.Views.EditPage"
+             x:DataType="vm:EditViewModel"
+             mvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <ScrollViewer>
+        <StackPanel Spacing="12" Margin="16">
+            <TextBlock Text="Edit Page" FontSize="24" FontWeight="Bold" />
+            <TextBlock Text="Back navigation is blocked when form is dirty" FontSize="13" Foreground="Gray" />
+
+            <Border Background="#FFF3E0" CornerRadius="8" Padding="12">
+                <StackPanel Spacing="6">
+                    <TextBlock Text="Status:" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding StatusMessage}" FontSize="14" />
+                </StackPanel>
+            </Border>
+
+            <TextBlock Text="Name:" FontWeight="SemiBold" />
+            <TextBox Text="{Binding Name}" />
+
+            <CheckBox Content="I have made changes"
+                      IsChecked="{Binding HasChanges}" />
+
+            <Button Content="Go Back" Command="{Binding GoBackCommand}" />
+        </StackPanel>
+    </ScrollViewer>
+</ContentPage>

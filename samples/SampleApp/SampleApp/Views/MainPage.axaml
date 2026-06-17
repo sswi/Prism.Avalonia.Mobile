@@ -1,0 +1,74 @@
+<ContentPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SampleApp.ViewModels"
+             xmlns:mvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Avalonia.Mobile"
+             x:Class="SampleApp.Views.MainPage"
+             x:DataType="vm:MainViewModel"
+             mvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <ScrollViewer>
+        <StackPanel Spacing="12" Margin="16">
+            <TextBlock Text="Prism.Avalonia.Mobile" FontSize="26" FontWeight="Bold" />
+            <TextBlock Text="MAUI-aligned navigation for Avalonia 12+" FontSize="13" Foreground="Gray" TextWrapping="Wrap" />
+
+            <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnSpacing="10" RowSpacing="10" Margin="0,8,0,0">
+
+                <Border Grid.Row="0" Grid.Column="0" Background="#F5F5F5" CornerRadius="8" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Page Navigation" FontSize="15" FontWeight="SemiBold" />
+                        <TextBlock Text="Push / Pop / GoBack" FontSize="12" Foreground="Gray" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="0" Grid.Column="1" Background="#F5F5F5" CornerRadius="8" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Builder API" FontSize="15" FontWeight="SemiBold" />
+                        <TextBlock Text="Fluent navigation" FontSize="12" Foreground="Gray" />
+                    </StackPanel>
+                </Border>
+                <Button Grid.Row="0" Grid.Column="0" Content="Open Detail" Command="{Binding NavigateDetailCommand}" />
+                <Button Grid.Row="0" Grid.Column="1" Content="Builder -> Detail" Command="{Binding BuilderNavigateCommand}" />
+
+                <Border Grid.Row="1" Grid.Column="0" Background="#F5F5F5" CornerRadius="8" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Deep Nav" FontSize="15" FontWeight="SemiBold" />
+                        <TextBlock Text="A -> B -> C -> Back" FontSize="12" Foreground="Gray" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="1" Grid.Column="1" Background="#F5F5F5" CornerRadius="8" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Window Dialog" FontSize="15" FontWeight="SemiBold" />
+                        <TextBlock Text="External OS window" FontSize="12" Foreground="Gray" />
+                    </StackPanel>
+                </Border>
+                <Button Grid.Row="1" Grid.Column="0" Content="Deep Navigate" Command="{Binding DeepNavigateCommand}" />
+                <Button Grid.Row="1" Grid.Column="1" Content="Show Window" Command="{Binding ShowWindowCommand}" />
+
+                <Border Grid.Row="2" Grid.Column="0" Background="#F5F5F5" CornerRadius="8" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Inline Dialog" FontSize="15" FontWeight="SemiBold" />
+                        <TextBlock Text="NavigationPage modal" FontSize="12" Foreground="Gray" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="1" Background="#F5F5F5" CornerRadius="8" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="GoBack" FontSize="15" FontWeight="SemiBold" />
+                        <TextBlock Text="Back to previous" FontSize="12" Foreground="Gray" />
+                    </StackPanel>
+                </Border>
+                <Button Grid.Row="2" Grid.Column="0" Content="Show Dialog" Command="{Binding ShowDialogCommand}" />
+                <Button Grid.Row="2" Grid.Column="1" Content="Go Back" Command="{Binding GoBackCommand}" />
+
+                <Border Grid.Row="3" Grid.Column="0" Background="#F5F5F5" CornerRadius="8" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Back Guard" FontSize="15" FontWeight="SemiBold" />
+                        <TextBlock Text="IConfirmNavigation" FontSize="12" Foreground="Gray" />
+                    </StackPanel>
+                </Border>
+                <Button Grid.Row="3" Grid.Column="0" Content="Open Edit Page" Command="{Binding OpenEditCommand}" />
+            </Grid>
+
+            <TextBlock Text="{Binding DialogResult}" FontSize="14" FontWeight="Bold" Foreground="DarkGreen" Margin="0,8,0,0" />
+            <TextBlock Text="Desktop / Mobile / Browser" FontSize="11" Foreground="Silver" />
+        </StackPanel>
+    </ScrollViewer>
+</ContentPage>

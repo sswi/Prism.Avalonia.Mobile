@@ -1,0 +1,14 @@
+<Solution>
+  <Project Path="K:/2026/6/Prism.Avalonia.Mobile/src/Prism.Avalonia.Mobile.SourceGen/Prism.Avalonia.Mobile.SourceGen.csproj" />
+  <Project Path="K:/2026/6/Prism.Avalonia.Mobile/src/Prism.Avalonia.Mobile/Prism.Avalonia.Mobile.csproj" />
+  <Project Path="K:/2026/6/Prism.Avalonia.Mobile/src/Prism.DryIoc.Avalonia.Mobile/Prism.DryIoc.Avalonia.Mobile.csproj" />
+  <Project Path="SampleApp.Android/SampleApp.Android.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="SampleApp.Browser/SampleApp.Browser.csproj" />
+  <Project Path="SampleApp.Desktop/SampleApp.Desktop.csproj" />
+  <Project Path="SampleApp.iOS/SampleApp.iOS.csproj">
+    <Deploy />
+  </Project>
+  <Project Path="SampleApp/SampleApp.csproj" />
+</Solution>

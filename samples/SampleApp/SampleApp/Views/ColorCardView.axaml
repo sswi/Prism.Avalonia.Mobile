@@ -1,0 +1,14 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="using:SampleApp.Models"
+             x:Class="SampleApp.Views.ColorCardView"
+             x:DataType="models:ColorItem">
+
+    <Border CornerRadius="6" Margin="4" Padding="10"
+            Background="{Binding Color, Converter={StaticResource ColorConverter}}">
+        <StackPanel>
+            <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="SemiBold" />
+            <TextBlock Text="{Binding Description}" FontSize="12" Foreground="Gray" />
+        </StackPanel>
+    </Border>
+</UserControl>

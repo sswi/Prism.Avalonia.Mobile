@@ -1,0 +1,15 @@
+<ContentPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:regions="clr-namespace:Prism.Navigation.Regions;assembly=Prism.Avalonia.Mobile"
+             x:Class="SampleApp.Views.RegionDemoPage">
+
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Left" Width="180" Spacing="6" Margin="8">
+            <TextBlock Text="Navigation" FontWeight="Bold" Margin="0,0,0,8" />
+            <Button Content="Dashboard" Click="OnDashboardClick" />
+            <Button Content="Profile" Click="OnProfileClick" />
+            <Button Content="Settings" Click="OnSettingsClick" />
+        </StackPanel>
+        <ContentControl Margin="8" regions:RegionManager.RegionName="DemoRegion" />
+    </DockPanel>
+</ContentPage>

@@ -1,0 +1,27 @@
+<ContentPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SampleApp.ViewModels"
+             xmlns:mvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Avalonia.Mobile"
+             x:Class="SampleApp.Views.DetailPage"
+             x:DataType="vm:DetailViewModel"
+             mvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <ScrollViewer>
+        <StackPanel Spacing="12" Margin="16">
+            <TextBlock Text="Detail Page" FontSize="24" FontWeight="Bold" />
+            <Border Background="#E3F2FD" CornerRadius="8" Padding="12">
+                <StackPanel>
+                    <TextBlock Text="Navigation Parameters:" FontWeight="SemiBold" FontSize="14" />
+                    <TextBlock Text="{Binding ParamDisplay}" />
+                </StackPanel>
+            </Border>
+            <Border Background="#F3E5F5" CornerRadius="8" Padding="12">
+                <TextBlock Text="{Binding LifecycleInfo}" />
+            </Border>
+            <Button Content="Navigate Deeper" Command="{Binding NavigateDeeperCommand}" />
+            <Button Content="Go Back" Command="{Binding GoBackCommand}" />
+            <Button Content="Go Back to Root" Command="{Binding GoBackToRootCommand}" />
+            <Button Content="Try Navigate (with Confirmation)" Command="{Binding NavigateWithConfirmationCommand}" />
+        </StackPanel>
+    </ScrollViewer>
+</ContentPage>

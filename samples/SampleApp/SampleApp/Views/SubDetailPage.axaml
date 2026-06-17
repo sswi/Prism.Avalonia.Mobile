@@ -1,0 +1,23 @@
+<ContentPage xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:SampleApp.ViewModels"
+             xmlns:mvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Avalonia.Mobile"
+             x:Class="SampleApp.Views.SubDetailPage"
+             x:DataType="vm:SubDetailViewModel"
+             mvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <ScrollViewer>
+        <StackPanel Spacing="12" Margin="16">
+            <TextBlock Text="Deep Navigation - Level 3" FontSize="22" FontWeight="Bold" />
+            <Border Background="#FFF3E0" CornerRadius="8" Padding="12">
+                <StackPanel>
+                    <TextBlock Text="Navigation Context:" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding DepthInfo}" />
+                </StackPanel>
+            </Border>
+            <Button Content="Go Back" Command="{Binding GoBackCommand}" />
+            <Button Content="GoBackTo 'MainPage'" Command="{Binding GoBackToMainCommand}" />
+            <Button Content="Go Back to Root" Command="{Binding GoBackToRootCommand}" />
+        </StackPanel>
+    </ScrollViewer>
+</ContentPage>
