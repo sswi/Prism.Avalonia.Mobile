@@ -21,14 +21,12 @@ public abstract class RegionAdapterBase<T> : IRegionAdapter where T : AvaloniaOb
         if (region is ITargetAwareRegion ta) ta.TargetElement = target;
 
         var factory = _container.Resolve<IRegionBehaviorFactory>();
-        var behaviors = new Behaviors.RegionBehaviorCollection(region);
         foreach (var key in factory)
         {
             var b = factory.CreateFromKey(key);
-            if (b is not null) { b.Region = region; behaviors.Add(key, b); b.Attach(); }
+            if (b is not null) { b.Region = region; region.Behaviors.Add(key, b); b.Attach(); }
         }
 
-        CopyBehaviors(behaviors, region.Behaviors);
         RegisterWithParent(target, region);
         Adapt(target, region);
         return region;
@@ -36,11 +34,6 @@ public abstract class RegionAdapterBase<T> : IRegionAdapter where T : AvaloniaOb
 
     protected abstract IRegion CreateRegion(IContainerExtension container);
     protected abstract void Adapt(T regionTarget, IRegion region);
-
-    private static void CopyBehaviors(IRegionBehaviorCollection src, IRegionBehaviorCollection dst)
-    {
-        foreach (var kv in src) { if (!dst.ContainsKey(kv.Key)) dst.Add(kv.Key, kv.Value); }
-    }
 
     protected virtual void RegisterWithParent(AvaloniaObject target, IRegion region)
     {

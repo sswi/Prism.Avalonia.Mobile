@@ -3,9 +3,6 @@ using System.Collections;
 
 namespace Prism.Navigation.Regions.Behaviors;
 
-/// <summary>
-/// Implementation of <see cref="IRegionBehaviorCollection"/>.
-/// </summary>
 internal class RegionBehaviorCollection : IRegionBehaviorCollection
 {
     private readonly IRegion _region;
@@ -16,27 +13,19 @@ internal class RegionBehaviorCollection : IRegionBehaviorCollection
         _region = region ?? throw new ArgumentNullException(nameof(region));
     }
 
-    /// <inheritdoc />
     public IRegionBehavior this[string key] =>
         _behaviors.TryGetValue(key, out var behavior)
             ? behavior
             : throw new KeyNotFoundException($"Behavior '{key}' not found.");
 
-    /// <inheritdoc />
     public void Add(string key, IRegionBehavior behavior)
     {
-        if (string.IsNullOrWhiteSpace(key))
-            throw new ArgumentNullException(nameof(key));
-        behavior.Region = _region;
+        if (string.IsNullOrWhiteSpace(key)) throw new ArgumentNullException(nameof(key));
         _behaviors[key] = behavior;
     }
 
-    /// <inheritdoc />
     public bool ContainsKey(string key) => _behaviors.ContainsKey(key);
 
-    /// <inheritdoc />
-    public IEnumerator<KeyValuePair<string, IRegionBehavior>> GetEnumerator() =>
-        _behaviors.GetEnumerator();
-
+    public IEnumerator<KeyValuePair<string, IRegionBehavior>> GetEnumerator() => _behaviors.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }
