@@ -200,7 +200,7 @@ public class NavigationRegistryGenerator : IIncrementalGenerator
             {
                 2 => "ViewType.Region", 3 => "ViewType.Dialog", _ => "ViewType.Page"
             };
-            sb.AppendLine($"        IContainerRegistryExtensions.PendingRegistrations.Add(new ViewRegistration {{ Type = {viewTypeEnum}, View = typeof({viewType}), ViewModel = {(vmType is not null ? $"typeof({vmType})" : "null")}, Name = \"{name}\" }});");
+            sb.AppendLine($"        AvaloniaContainerRegistryExtensions.PendingRegistrations.Add(new ViewRegistration {{ Type = {viewTypeEnum}, View = typeof({viewType}), ViewModel = {(vmType is not null ? $"typeof({vmType})" : "null")}, Name = \"{name}\" }});");
             sb.AppendLine();
         }
 

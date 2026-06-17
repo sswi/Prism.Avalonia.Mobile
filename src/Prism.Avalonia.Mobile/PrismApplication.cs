@@ -104,6 +104,7 @@ public abstract class PrismApplication : Application
         if (shell != null)
         {
             AutowireViewModelTree(shell);
+            AwaitInitialPageLifecycle(shell);
             RegionManager.SetRegionManager(shell, _containerExtension.Resolve<IRegionManager>());
             RegionManager.UpdateRegions();
             InitializeShell(shell);
@@ -253,6 +254,24 @@ public abstract class PrismApplication : Application
         // Recurse into NavigationPage content
         if (view is Avalonia.Controls.NavigationPage np && np.Content is AvaloniaObject npContent)
             AutowireViewModelTree(npContent);
+    }
+
+    /// <summary>
+    /// Triggers IInitialize / ITaskInitialize / INavigatedAware lifecycle on the
+    /// initial page set as NavigationPage.Content (bypasses navigation service).
+    /// </summary>
+    private static async void AwaitInitialPageLifecycle(AvaloniaObject shell)
+    {
+        var initialPage = shell as Page;
+        if (shell is Avalonia.Controls.NavigationPage np)
+            initialPage = np.Content as Page;
+
+        if (initialPage is not null)
+        {
+            var p = new NavigationParameters();
+            await Common.MvvmHelpers.OnInitializedAsync(initialPage, p);
+            Common.MvvmHelpers.OnNavigatedTo(initialPage, p);
+        }
     }
 
     /// <summary>

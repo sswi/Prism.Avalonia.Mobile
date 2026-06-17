@@ -12,7 +12,7 @@ internal sealed class NavigationRegistry : AvaloniaViewRegistryBase, INavigation
     private readonly IPageBehaviorFactory _behaviorFactory;
 
     public NavigationRegistry(IPageBehaviorFactory behaviorFactory)
-        : base(ViewType.Page, Prism.Ioc.IContainerRegistryExtensions.PendingRegistrations.Where(r => r.Type == ViewType.Page))
+        : base(ViewType.Page, Prism.Ioc.AvaloniaContainerRegistryExtensions.PendingRegistrations.Where(r => r.Type == ViewType.Page))
     {
         _behaviorFactory = behaviorFactory ?? throw new ArgumentNullException(nameof(behaviorFactory));
     }

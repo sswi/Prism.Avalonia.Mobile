@@ -5,7 +5,7 @@ using Prism.Navigation;
 
 namespace Prism.Ioc;
 
-public static class IContainerRegistryExtensions
+public static class AvaloniaContainerRegistryExtensions
 {
     /// <summary>
     /// Internal static list that accumulates ViewRegistration objects during
