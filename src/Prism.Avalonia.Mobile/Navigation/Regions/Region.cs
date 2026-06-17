@@ -25,6 +25,7 @@ public class Region : IRegion, ITargetAwareRegion, INotifyPropertyChanged
     /// </summary>
     public Region()
     {
+        _behaviors = new Behaviors.RegionBehaviorCollection(this);
         _itemMetadata.CollectionChanged += (_, _) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Views)));
     }
