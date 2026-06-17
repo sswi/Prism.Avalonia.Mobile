@@ -3,9 +3,6 @@ using Avalonia;
 
 namespace Prism.Navigation.Regions;
 
-/// <summary>
-/// Implementation of <see cref="IRegionManager"/>.
-/// </summary>
 public class RegionManager : IRegionManager
 {
     // ── Attached properties ───────────────────────────────────────────
@@ -30,50 +27,67 @@ public class RegionManager : IRegionManager
     public static void SetRegionName(AvaloniaObject obj, string? value) =>
         obj.SetValue(RegionNameProperty, value);
 
+    // ── Pending region creation ───────────────────────────────────────
+
+    private static readonly List<(string name, AvaloniaObject element)> _pendingRegions = new();
+
     static RegionManager()
     {
         RegionNameProperty.Changed.AddClassHandler<AvaloniaObject>(
             (obj, args) =>
             {
                 if (args.NewValue is string name && !string.IsNullOrEmpty(name))
+                {
+                    _pendingRegions.Add((name, obj));
                     UpdatingRegions?.Invoke(null, new RegionCreationEventArgs(name, obj));
+                }
             });
     }
 
     public static event EventHandler<RegionCreationEventArgs>? UpdatingRegions;
-    public static void UpdateRegions() { /* DelayedRegionCreationBehavior handles this */ }
+
+    /// <summary>
+    /// Creates all pending regions. Must be called after RegionAdapterMappings are registered.
+    /// </summary>
+    public static void UpdateRegions()
+    {
+        if (_pendingRegions.Count == 0) return;
+
+        var container = ContainerLocator.Container;
+        var mappings = container.Resolve<Adapters.RegionAdapterMappings>();
+
+        foreach (var (name, element) in _pendingRegions)
+        {
+            var behavior = new Behaviors.DelayedRegionCreationBehavior(name, element, mappings, container);
+            behavior.Start();
+        }
+        _pendingRegions.Clear();
+    }
 
     // ── Instance ──────────────────────────────────────────────────────
 
     private readonly RegionCollection _regions = new();
 
-    /// <inheritdoc />
     public IRegionCollection Regions => _regions;
 
-    /// <inheritdoc />
     public IRegionManager CreateRegionManager() => new RegionManager();
 
-    /// <inheritdoc />
     public IRegionManager AddToRegion(string regionName, string viewName)
     {
         if (!_regions.ContainsRegionWithName(regionName))
             throw new KeyNotFoundException($"Region '{regionName}' not found.");
-
         _regions[regionName].Add(viewName);
         return this;
     }
 
-    /// <inheritdoc />
     public IRegionManager AddToRegion(string regionName, object view)
     {
         if (!_regions.ContainsRegionWithName(regionName))
             throw new KeyNotFoundException($"Region '{regionName}' not found.");
-
         _regions[regionName].Add(view);
         return this;
     }
 
-    /// <inheritdoc />
     public IRegionManager RegisterViewWithRegion(string regionName, Type viewType)
     {
         var viewRegistry = ContainerLocator.Container.Resolve<IRegionViewRegistry>();
@@ -81,7 +95,6 @@ public class RegionManager : IRegionManager
         return this;
     }
 
-    /// <inheritdoc />
     public IRegionManager RegisterViewWithRegion(string regionName, string viewName)
     {
         var viewRegistry = ContainerLocator.Container.Resolve<IRegionViewRegistry>();
@@ -89,7 +102,6 @@ public class RegionManager : IRegionManager
         return this;
     }
 
-    /// <inheritdoc />
     public IRegionManager RegisterViewWithRegion(string regionName, Func<IContainerProvider, object> viewFactory)
     {
         var viewRegistry = ContainerLocator.Container.Resolve<IRegionViewRegistry>();
@@ -97,7 +109,6 @@ public class RegionManager : IRegionManager
         return this;
     }
 
-    /// <inheritdoc />
     public void RequestNavigate(
         string regionName,
         Uri target,
@@ -106,14 +117,10 @@ public class RegionManager : IRegionManager
     {
         if (!_regions.ContainsRegionWithName(regionName))
             throw new KeyNotFoundException($"Region '{regionName}' not found.");
-
         _regions[regionName].RequestNavigate(target, navigationCallback, parameters);
     }
 }
 
-/// <summary>
-/// Event args for region creation.
-/// </summary>
 public class RegionCreationEventArgs : EventArgs
 {
     public string RegionName { get; }
