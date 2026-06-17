@@ -63,7 +63,7 @@ public class Region : IRegion, ITargetAwareRegion, INotifyPropertyChanged
     /// <inheritdoc />
     public IRegionBehaviorCollection Behaviors
     {
-        get => _behaviors ?? throw new InvalidOperationException("Behaviors have not been set.");
+        get => _behaviors ??= new Behaviors.RegionBehaviorCollection(this);
         set => _behaviors = value;
     }
 
