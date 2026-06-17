@@ -4,9 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>12</LangVersion>
     <RootNamespace>Prism.Avalonia.Mobile.SourceGen</RootNamespace>
-    <AssemblyName>Prism.Avalonia.Mobile.SourceGen</AssemblyName>
+    <AssemblyName>Xe.Prism.Avalonia.Mobile.SourceGen</AssemblyName>
+    <PackageId>Xe.Prism.Avalonia.Mobile.SourceGen</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>Compile-time source generators for Prism.Avalonia.Mobile AOT support.</Description>
+    <Description>Compile-time source generators for Xe.Prism.Avalonia.Mobile AOT support.</Description>
     <PackageTags>prism;avalonia;avalonia12;sourcegen;AOT;NativeAOT</PackageTags>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -14,10 +15,13 @@
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <NoWarn>NU5128</NoWarn>
     <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\..\assets\logo.png" Pack="true" PackagePath="" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <ItemGroup>

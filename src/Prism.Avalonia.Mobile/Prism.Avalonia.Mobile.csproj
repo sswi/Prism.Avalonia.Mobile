@@ -3,17 +3,21 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <RootNamespace>Prism</RootNamespace>
-    <AssemblyName>Prism.Avalonia.Mobile</AssemblyName>
+    <AssemblyName>Xe.Prism.Avalonia.Mobile</AssemblyName>
+    <PackageId>Xe.Prism.Avalonia.Mobile</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Prism.Avalonia.Mobile provides page-based navigation for Avalonia 12+ applications using NavigationPage, TabbedPage, and DrawerPage — fully aligned with the Prism MAUI navigation model. Designed for mobile-first, AOT-compatible scenarios.</Description>
     <PackageTags>prism;avalonia;avalonia12;navigation;navigationpage;mobile;mvvm;di;AOT</PackageTags>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\..\assets\logo.png" Pack="true" PackagePath="" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <ItemGroup>

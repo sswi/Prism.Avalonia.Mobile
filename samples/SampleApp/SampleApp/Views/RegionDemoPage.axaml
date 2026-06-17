@@ -1,6 +1,6 @@
 <ContentPage xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:regions="clr-namespace:Prism.Navigation.Regions;assembly=Prism.Avalonia.Mobile"
+             xmlns:regions="clr-namespace:Prism.Navigation.Regions;assembly=Xe.Prism.Avalonia.Mobile"
              x:Class="SampleApp.Views.RegionDemoPage">
 
     <DockPanel>

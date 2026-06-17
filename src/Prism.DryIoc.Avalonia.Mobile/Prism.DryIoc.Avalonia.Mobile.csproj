@@ -3,17 +3,21 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net9.0;net10.0</TargetFrameworks>
     <RootNamespace>Prism.DryIoc</RootNamespace>
-    <AssemblyName>Prism.DryIoc.Avalonia.Mobile</AssemblyName>
+    <AssemblyName>Xe.Prism.DryIoc.Avalonia.Mobile</AssemblyName>
+    <PackageId>Xe.Prism.DryIoc.Avalonia.Mobile</PackageId>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Description>DryIoc container integration for Prism.Avalonia.Mobile.</Description>
+    <Description>DryIoc container integration for Xe.Prism.Avalonia.Mobile.</Description>
     <PackageTags>prism;avalonia;avalonia12;navigation;dryioc;di;mobile</PackageTags>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageIcon>logo.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\..\assets\logo.png" Pack="true" PackagePath="" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="" />
   </ItemGroup>
 
   <ItemGroup>
