@@ -257,21 +257,30 @@ public abstract class PrismApplication : Application
     }
 
     /// <summary>
-    /// Triggers IInitialize / ITaskInitialize / INavigatedAware lifecycle on the
-    /// initial page set as NavigationPage.Content (bypasses navigation service).
+    /// Triggers IInitialize / INavigatedAware lifecycle on the initial page,
+    /// deferred to after the visual tree attaches (so regions are ready).
     /// </summary>
-    private static async void AwaitInitialPageLifecycle(AvaloniaObject shell)
+    private static void AwaitInitialPageLifecycle(AvaloniaObject shell)
     {
-        var initialPage = shell as Page;
-        if (shell is Avalonia.Controls.NavigationPage np)
-            initialPage = np.Content as Page;
-
-        if (initialPage is not null)
+        void FireLifecycle(object? s, Avalonia.VisualTreeAttachmentEventArgs e)
         {
-            var p = new NavigationParameters();
-            await Common.MvvmHelpers.OnInitializedAsync(initialPage, p);
-            Common.MvvmHelpers.OnNavigatedTo(initialPage, p);
+            if (s is Avalonia.Visual v)
+                v.AttachedToVisualTree -= FireLifecycle;
+
+            var initialPage = shell as Page;
+            if (shell is Avalonia.Controls.NavigationPage np)
+                initialPage = np.Content as Page;
+
+            if (initialPage is not null)
+            {
+                var p = new NavigationParameters();
+                _ = Common.MvvmHelpers.OnInitializedAsync(initialPage, p);
+                Common.MvvmHelpers.OnNavigatedTo(initialPage, p);
+            }
         }
+
+        if (shell is Avalonia.Visual visual)
+            visual.AttachedToVisualTree += FireLifecycle;
     }
 
     /// <summary>
