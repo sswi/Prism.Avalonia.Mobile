@@ -267,16 +267,20 @@ public abstract class PrismApplication : Application
             if (s is Avalonia.Visual v)
                 v.AttachedToVisualTree -= FireLifecycle;
 
-            var initialPage = shell as Page;
-            if (shell is Avalonia.Controls.NavigationPage np)
-                initialPage = np.Content as Page;
-
-            if (initialPage is not null)
+            // Defer to after all children are attached (regions are ready)
+            Avalonia.Threading.Dispatcher.UIThread.Post(() =>
             {
-                var p = new NavigationParameters();
-                _ = Common.MvvmHelpers.OnInitializedAsync(initialPage, p);
-                Common.MvvmHelpers.OnNavigatedTo(initialPage, p);
-            }
+                var initialPage = shell as Page;
+                if (shell is Avalonia.Controls.NavigationPage np)
+                    initialPage = np.Content as Page;
+
+                if (initialPage is not null)
+                {
+                    var p = new NavigationParameters();
+                    _ = Common.MvvmHelpers.OnInitializedAsync(initialPage, p);
+                    Common.MvvmHelpers.OnNavigatedTo(initialPage, p);
+                }
+            }, Avalonia.Threading.DispatcherPriority.Loaded);
         }
 
         if (shell is Avalonia.Visual visual)
