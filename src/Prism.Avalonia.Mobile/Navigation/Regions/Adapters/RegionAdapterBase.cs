@@ -20,6 +20,9 @@ public abstract class RegionAdapterBase<T> : IRegionAdapter where T : AvaloniaOb
         region.Name = regionName;
         if (region is ITargetAwareRegion ta) ta.TargetElement = target;
 
+        // Set up navigation service (required by region)
+        region.NavigationService = _container.Resolve<IRegionNavigationService>();
+
         var factory = _container.Resolve<IRegionBehaviorFactory>();
         foreach (var key in factory)
         {
