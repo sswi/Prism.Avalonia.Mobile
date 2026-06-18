@@ -41,6 +41,7 @@ public class RegionNavigationService : IRegionNavigationService
             var view = _contentLoader.LoadContent(Region, ctx);
             if (view is null) { callback?.Invoke(new NavigationResult(new NavigationException("Content null."))); return; }
 
+            Region.Add(view);
             Region.Activate(view);
             MvvmHelpers.InvokeViewAndViewModelAction<IRegionAware>(view, a => a.OnNavigatedTo(ctx));
             Navigated?.Invoke(this, new RegionNavigationEventArgs(ctx));
