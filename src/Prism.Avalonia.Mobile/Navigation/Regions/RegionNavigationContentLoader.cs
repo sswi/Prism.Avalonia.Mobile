@@ -75,7 +75,10 @@ public class RegionNavigationContentLoader : IRegionNavigationContentLoader
         // Try by registered name
         try
         {
-            return _container.Resolve<object>(contract);
+            var view = _container.Resolve<object>(contract);
+            if (view is Avalonia.AvaloniaObject ao)
+                Mvvm.ViewModelLocator.Autowire(ao);
+            return view;
         }
         catch
         {
@@ -87,7 +90,10 @@ public class RegionNavigationContentLoader : IRegionNavigationContentLoader
         var viewType = regionRegistry.GetViewType(contract);
         if (viewType is not null)
         {
-            return _container.Resolve(viewType);
+            var view = _container.Resolve(viewType);
+            if (view is Avalonia.AvaloniaObject aov)
+                Mvvm.ViewModelLocator.Autowire(aov);
+            return view;
         }
 
         throw new KeyNotFoundException(

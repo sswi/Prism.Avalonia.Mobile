@@ -12,12 +12,9 @@ public class ContentControlRegionAdapter : RegionAdapterBase<ContentControl>
 
     protected override void Adapt(ContentControl regionTarget, IRegion region)
     {
-        region.ActiveViews.CollectionChanged += (s, e) =>
-        {
-            regionTarget.Content = region.ActiveViews.FirstOrDefault();
-        };
+        void UpdateContent() => regionTarget.Content = region.ActiveViews.FirstOrDefault();
 
-        // Auto-activate first view added
+        region.ActiveViews.CollectionChanged += (s, e) => UpdateContent();
         region.Views.CollectionChanged += (s, e) =>
         {
             if (regionTarget.Content is null && region.Views.Any())
@@ -27,5 +24,13 @@ public class ContentControlRegionAdapter : RegionAdapterBase<ContentControl>
                     region.Activate(first);
             }
         };
+
+        // Also listen for PropertyChanged (IsActive changes don't fire collection events)
+        if (region is System.ComponentModel.INotifyPropertyChanged npc)
+            npc.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(IRegion.ActiveViews))
+                    UpdateContent();
+            };
     }
 }

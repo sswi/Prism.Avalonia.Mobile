@@ -39,6 +39,9 @@ public class RegionManager : IRegionManager
 
     // ── Pending region creation ───────────────────────────────────────
 
+    /// <summary>Fallback RegionManager for regions created before parent is attached.</summary>
+    internal static IRegionManager? RootRegionManager { get; set; }
+
     private static readonly List<(string name, AvaloniaObject element)> _pendingRegions = new();
 
     static RegionManager()
@@ -49,9 +52,24 @@ public class RegionManager : IRegionManager
                 if (args.NewValue is string name && !string.IsNullOrEmpty(name))
                 {
                     _pendingRegions.Add((name, obj));
+                    CreateRegionImmediately(name, obj);
                     UpdatingRegions?.Invoke(null, new RegionCreationEventArgs(name, obj));
                 }
             });
+    }
+
+    private static readonly List<Behaviors.DelayedRegionCreationBehavior> _pendingBehaviors = new();
+
+    private static void CreateRegionImmediately(string name, AvaloniaObject element)
+    {
+        var container = ContainerLocator.Container;
+        var mappings = container?.Resolve<Adapters.RegionAdapterMappings>();
+        if (mappings is null) return;
+
+        var behavior = new Behaviors.DelayedRegionCreationBehavior(name, element, mappings, container);
+        _pendingBehaviors.Add(behavior);
+        behavior.Start();
+        behavior.CreateRegion();
     }
 
     public static event EventHandler<RegionCreationEventArgs>? UpdatingRegions;
@@ -61,6 +79,7 @@ public class RegionManager : IRegionManager
     /// </summary>
     public static void UpdateRegions(IRegionManager? parentManager = null)
     {
+        if (parentManager is not null) RootRegionManager = parentManager;
         if (_pendingRegions.Count == 0) return;
 
         var container = ContainerLocator.Container;
