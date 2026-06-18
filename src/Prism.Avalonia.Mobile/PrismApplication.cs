@@ -99,13 +99,16 @@ public abstract class PrismApplication : Application
         var regionBehaviorFactory = _containerExtension.Resolve<IRegionBehaviorFactory>();
         ConfigureDefaultRegionBehaviors(regionBehaviorFactory);
 
-        // Step 9: Create the shell
+        // Step 9: Prepare RegionManager BEFORE CreateShell (XAML RegionName needs RootRegionManager)
+        var rm = _containerExtension.Resolve<IRegionManager>();
+        RegionManager.RootRegionManager = rm;
+
+        // Step 10: Create the shell
         var shell = CreateShell();
         if (shell != null)
         {
             AutowireViewModelTree(shell);
             AwaitInitialPageLifecycle(shell);
-            var rm = _containerExtension.Resolve<IRegionManager>();
             RegionManager.SetRegionManager(shell, rm);
             RegionManager.UpdateRegions(rm);
             InitializeShell(shell);

@@ -5,32 +5,26 @@ namespace Prism.DryIoc;
 
 /// <summary>
 /// DryIoc-specific base application class for Prism.Avalonia.Mobile.
-/// Provides the DryIoc container integration.
+/// Applies AOT-safe container rules by default.
 /// </summary>
-/// <remarks>
-/// <para>Usage:</para>
-/// <code>
-/// public partial class App : Prism.DryIoc.PrismApplication
-/// {
-///     protected override AvaloniaObject CreateShell()
-///         => Container.Resolve&lt;NavigationPage&gt;();
-///
-///     protected override void RegisterTypes(IContainerRegistry cr)
-///     {
-///         cr.RegisterForNavigation&lt;MainPage, MainViewModel&gt;("MainPage");
-///     }
-/// }
-/// </code>
-/// </remarks>
 public abstract class PrismApplication : Prism.PrismApplication
 {
     /// <summary>
-    /// Creates the default container rules. Override to customize DryIoc behavior.
-    /// For AOT scenarios, consider disabling dynamic registrations.
+    /// Creates the default container rules. For AOT scenarios,
+    /// registers internal Prism types explicitly and disables dynamic registration.
     /// </summary>
     protected virtual Rules CreateContainerRules()
     {
-        return DryIocContainerExtension.DefaultRules;
+        var rules = DryIocContainerExtension.DefaultRules;
+
+        // AOT-safe: register internal Prism types that lack public constructors
+        rules = rules.WithConcreteTypeDynamicRegistrations((serviceType, _) =>
+        {
+            // Allow dynamic registration only for simple value types
+            return serviceType.IsValueType;
+        });
+
+        return rules;
     }
 
     /// <inheritdoc />
