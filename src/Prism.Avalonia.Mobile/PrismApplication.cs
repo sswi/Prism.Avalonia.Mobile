@@ -275,6 +275,7 @@ public abstract class PrismApplication : Application
             if (initialPage is not null)
             {
                 var p = new NavigationParameters();
+                _ = Common.MvvmHelpers.OnInitializedAsync(initialPage, p);
                 Common.MvvmHelpers.OnNavigatedTo(initialPage, p);
             }
         }
