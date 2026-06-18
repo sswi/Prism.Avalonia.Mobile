@@ -44,12 +44,18 @@ public class DialogService : IDialogService
         // Inject IDialogCloser for AOT-safe ViewModel close
         parameters.Add(KnownDialogParameters.DialogCloser, (IDialogCloser)dialogPage);
 
-        // Fire lifecycle on View + ViewModel
+        // Fire lifecycle on View if it implements IDialogAware
         if (content is IDialogAware viewAware)
-        {
             viewAware.OnDialogOpened(parameters);
-            if (content is StyledElement se && se.DataContext is IDialogAware vmAware)
+
+        // Also fire on ViewModel (may fail silently if DataContext not set)
+        if (content is StyledElement se)
+        {
+            System.Diagnostics.Debug.WriteLine($"[Dialog] DataContext={se.DataContext?.GetType().Name ?? "null"}");
+            if (se.DataContext is IDialogAware vmAware)
                 vmAware.OnDialogOpened(parameters);
+            else
+                System.Diagnostics.Debug.WriteLine("[Dialog] DataContext is not IDialogAware");
         }
 
         if (navPage is INavigation nav)
