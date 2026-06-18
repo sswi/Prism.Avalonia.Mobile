@@ -49,7 +49,7 @@ public class RegionManager : IRegionManager
     /// <summary>
     /// Creates all pending regions. Must be called after RegionAdapterMappings are registered.
     /// </summary>
-    public static void UpdateRegions()
+    public static void UpdateRegions(IRegionManager? parentManager = null)
     {
         if (_pendingRegions.Count == 0) return;
 
@@ -58,7 +58,7 @@ public class RegionManager : IRegionManager
 
         foreach (var (name, element) in _pendingRegions)
         {
-            var behavior = new Behaviors.DelayedRegionCreationBehavior(name, element, mappings, container);
+            var behavior = new Behaviors.DelayedRegionCreationBehavior(name, element, mappings, container, parentManager);
             behavior.Start();
         }
         _pendingRegions.Clear();

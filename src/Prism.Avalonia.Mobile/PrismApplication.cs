@@ -105,8 +105,9 @@ public abstract class PrismApplication : Application
         {
             AutowireViewModelTree(shell);
             AwaitInitialPageLifecycle(shell);
-            RegionManager.SetRegionManager(shell, _containerExtension.Resolve<IRegionManager>());
-            RegionManager.UpdateRegions();
+            var rm = _containerExtension.Resolve<IRegionManager>();
+            RegionManager.SetRegionManager(shell, rm);
+            RegionManager.UpdateRegions(rm);
             InitializeShell(shell);
         }
 
