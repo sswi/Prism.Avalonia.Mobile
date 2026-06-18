@@ -35,6 +35,7 @@ public static class PrismInitializationExtensions
 
         // Region
         containerRegistry.RegisterSingleton<IRegionManager, RegionManager>();
+        containerRegistry.RegisterSingleton<IRegionNavigationService, RegionNavigationService>();
         containerRegistry.RegisterSingleton<IRegionNavigationContentLoader, RegionNavigationContentLoader>();
         containerRegistry.RegisterSingleton<IRegionViewRegistry, RegionViewRegistry>();
         containerRegistry.RegisterSingleton<IRegionNavigationRegistry, RegionNavigationRegistry>();
