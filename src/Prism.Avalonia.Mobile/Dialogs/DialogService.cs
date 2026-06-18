@@ -48,15 +48,9 @@ public class DialogService : IDialogService
         if (content is IDialogAware viewAware)
             viewAware.OnDialogOpened(parameters);
 
-        // Also fire on ViewModel (may fail silently if DataContext not set)
-        if (content is StyledElement se)
-        {
-            System.Diagnostics.Debug.WriteLine($"[Dialog] DataContext={se.DataContext?.GetType().Name ?? "null"}");
-            if (se.DataContext is IDialogAware vmAware)
-                vmAware.OnDialogOpened(parameters);
-            else
-                System.Diagnostics.Debug.WriteLine("[Dialog] DataContext is not IDialogAware");
-        }
+        // Also fire on ViewModel (independent of View's IDialogAware)
+        if (content is StyledElement se && se.DataContext is IDialogAware vmAware)
+            vmAware.OnDialogOpened(parameters);
 
         if (navPage is INavigation nav)
             await nav.PushModalAsync(dialogPage);
