@@ -21,6 +21,7 @@ public class MainViewModel : BindableBase, INavigatedAware
     public DelegateCommand ShowDialogCommand { get; }
     public DelegateCommand ShowWindowCommand { get; }
     public DelegateCommand OpenEditCommand { get; }
+    public DelegateCommand OpenRegionCommand { get; }
     public DelegateCommand GoBackCommand { get; }
 
     public MainViewModel(INavigationService nav, IDialogService dialog)
@@ -66,6 +67,11 @@ public class MainViewModel : BindableBase, INavigatedAware
         OpenEditCommand = new(async () =>
         {
             await _nav.NavigateAsync("EditPage");
+        });
+
+        OpenRegionCommand = new(async () =>
+        {
+            await _nav.NavigateAsync("RegionDemoPage");
         });
     }
 

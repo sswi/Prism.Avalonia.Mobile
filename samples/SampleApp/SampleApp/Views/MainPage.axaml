@@ -65,6 +65,14 @@
                     </StackPanel>
                 </Border>
                 <Button Grid.Row="3" Grid.Column="0" Content="Open Edit Page" Command="{Binding OpenEditCommand}" />
+
+                <Border Grid.Row="3" Grid.Column="1" Background="#F5F5F5" CornerRadius="8" Padding="12">
+                    <StackPanel>
+                        <TextBlock Text="Region Demo" FontSize="15" FontWeight="SemiBold" />
+                        <TextBlock Text="IRegionManager" FontSize="12" Foreground="Gray" />
+                    </StackPanel>
+                </Border>
+                <Button Grid.Row="3" Grid.Column="1" Content="Open Region" Command="{Binding OpenRegionCommand}" />
             </Grid>
 
             <TextBlock Text="{Binding DialogResult}" FontSize="14" FontWeight="Bold" Foreground="DarkGreen" Margin="0,8,0,0" />

@@ -11,8 +11,18 @@ public class RegionManager : IRegionManager
         AvaloniaProperty.RegisterAttached<RegionManager, AvaloniaObject, IRegionManager?>(
             "RegionManager");
 
-    public static IRegionManager? GetRegionManager(AvaloniaObject obj) =>
-        obj.GetValue(RegionManagerProperty);
+    public static IRegionManager? GetRegionManager(AvaloniaObject obj)
+    {
+        // Walk up the visual tree to find a RegionManager
+        var p = obj;
+        while (p is not null)
+        {
+            var rm = p.GetValue(RegionManagerProperty);
+            if (rm is not null) return rm;
+            p = (p as Visual)?.Parent;
+        }
+        return null;
+    }
 
     public static void SetRegionManager(AvaloniaObject obj, IRegionManager? value) =>
         obj.SetValue(RegionManagerProperty, value);
