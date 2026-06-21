@@ -1,6 +1,8 @@
 #nullable enable
 using System.Web;
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Prism.Common;
 using Prism.Ioc;
 using Prism.Mvvm;
@@ -42,7 +44,12 @@ public class PageNavigationService : INavigationService
     private async Task<INavigationResult> GoBackInternal(INavigationParameters parameters)
     {
         var navPage = FindNavPage();
-        if (navPage is null || navPage.NavigationStack.Count <= 1) return Fail(new NavigationException("Cannot go back."));
+        if (navPage is null || navPage.NavigationStack.Count <= 1)
+        {
+            if (Avalonia.Application.Current?.ApplicationLifetime is ISingleViewApplicationLifetime)
+                return Ok(); // Mobile: silent at root (don't crash)
+            return Fail(new NavigationException("Cannot go back."));
+        }
 
         var fromPage = navPage.NavigationStack[^1];
         var can = await MvvmHelpers.CanNavigateAsync(fromPage, parameters);
